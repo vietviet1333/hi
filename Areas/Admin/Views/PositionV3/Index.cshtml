@@ -1,0 +1,141 @@
+﻿@model IEnumerable<Nexus_Manegement.Entities.Model.Position>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<link href="~/fontawesome/css/all.min.css" rel="stylesheet" />
+<link href="~/fontawesome/css/fontawesome.min.css" rel="stylesheet" />
+
+<h4>Index Of Position</h4>
+<hr />
+@await Html.PartialAsync("_ViewData")
+
+@*<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />*@
+<!--Modal-->
+<div class="modal fade modal" id="modalPosition">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="text-info modal-title">Add New Position</h1>
+                <button class="close btn_close_modal " style="color: red; font-size: 28px;" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form method="post" id="form_add">
+                    <input type="hidden" id="idHide" value="0" name="idHide" />
+                    <div class="form-group">
+                        <label class="form-label" for="positionName">Position name</label>
+                        <input type="text" id="positionName" name="positionName" placeholder="vd: Manage" class="form-control" />
+                        <span class="text-danger"></span>
+                    </div>
+                    <div style="float: right;">
+                        <input type="submit" class="btn btn-primary" asp-action="" value="New" />
+                        @*<a  class="btn btn-primary" type="" asp-action="">New</a>*@
+                        <button type="button" class="btn btn-danger btn_close_modal" data-dismiss="modal">Close</button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/good.js"></script>
+<script>
+    //debugger
+    ListPosition();
+
+    //
+    $("#btn_addPosition").click(() => {
+        $("#modalPosition").modal("show");
+    });
+    function resetValue() {
+        $("#positionName").val("");
+
+        $(".text-danger ").text("");
+    }
+    $('.btn_close_modal').click(() => {
+        resetValue();
+        $('#modalPosition').modal('hide');
+        //$("#modalPosition")[0].reset();
+    });
+    function CloseModal(){
+        resetValue();
+        $('#modalPosition').modal('hide');
+        $(".text-danger").val("");
+
+    }
+    function AddPosition(data ){debugger
+        var id =0;
+        if(data.idHide){
+            id= data.idHide
+        }else{
+            id=0
+        }
+        $.ajax({
+            url: `/PositionV3/AddOrUpdate/${id}`,
+            type: "Post",
+            data: data,
+            dataType: "json",
+            contentType: "application/x-www-form-urlencoded;charset=utf-8",
+            success: (res) => {
+                debugger
+                ListPosition();
+                CloseModal();
+                alert("Add or update success");
+            }, 
+            error:()=>{
+                alert("Failed ");
+            }
+
+        });
+    };
+    function FormEdit(id){
+        debugger
+        console.log(id);
+        $.ajax({
+            url: `/PositionV3/FormAddOrUpdate/${id}`,
+            tyle: "Get",
+            success: (data)=>{
+                console.log(data);
+                console.log(data.name);debugger
+                $('#modalPosition').modal('show');
+                $("#positionName").val(data.name);
+                $("#idHide").val(data.id);
+            }
+            
+        })
+    }
+    //Delete
+    function Delete(id){
+        $.ajax({
+            url: `/PositionV3/Delete/${id}`,
+            type: "Post",
+            success: (res)=>{debugger
+                alert("Delete success");
+                ListPosition();
+            },
+            error: ()=>{
+                alert("Failed");
+            }
+        });
+    };
+</script>
+<script>
+    //validator
+    ValidatorC2({
+        form: "#form_add",
+        errSelector: ".text-danger",
+        rules: [
+            ValidatorC2.isRequired("#positionName"),
+            ValidatorC2.isMinLength("#positionName", 7),
+        ],
+        onSubmit: (data) => {
+            console.log("data result");
+            console.log(data); debugger
+            AddPosition(data, id=0);
+        }
+    });
+</script>
+
+
+

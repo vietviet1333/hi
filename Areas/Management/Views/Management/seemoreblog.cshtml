@@ -1,0 +1,130 @@
+﻿@{
+    Layout = "_LayoutManagement";
+}
+@model Nexus_Manegement.Models.Blog
+
+<div style="height: 50px;
+    text-align: center;
+    border-bottom: 0.2px solid black;
+    margin-bottom: 2px;">
+    <label style="    font-size: larger;
+    font-weight: 900;"><h2>CUSTOMER</h2></label>
+</div>
+<button onclick="history.back()" class="btn btn-secondary round" role="button" style="margin-left:10px; height: 46px;">
+    Back
+</button>
+
+<form action="/Management/Addevent" method="post" id="ckeditorForm" enctype="multipart/form-data" style="    margin: 20px 35px;">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">EDIT BLOG</h4>
+        </div>
+        <div class="card-body">
+            <table>
+                <tr>
+                    <td><label>Name   :</label></td>
+                    <td>
+                        <input type="text" maxlength="100" style="margin-left:10px" name="name" required placeholder="Name" value="@Model.Name" />
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td><label>Picture:</label></td>
+                    <td>
+                        <input type="file" id="fileName" accept=".jpg,.jpeg,.png" onchange="validateFileType(event)" style="padding:10px 10px" name="Image" class="col-md-10" required/>
+                    </td>
+                </tr>
+            </table>
+            <div class="preview">
+                <img id="file-ip-1-preview" style="height:10%;width:15%" src="~/Image/@Model.Image">
+            </div>
+            <textarea name="content" id="editor" placeholder="This is some sample content.">
+
+         </textarea>
+            <button id="btnSubmit" type="submit" class="btn btn-secondary round" style=" margin-left: 26px;margin-top:20px">Submit</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    function validateFileType(event) {
+        var fileName = document.getElementById("fileName").value;
+        var file = document.getElementById("fileName");
+        var idxDot = fileName.lastIndexOf(".") + 1;
+        var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+        if (extFile == "jpg" || extFile == "jpeg" || extFile == "png") {
+            if (event.target.files.length > 0) {
+                var src = URL.createObjectURL(event.target.files[0]);
+                var preview = document.getElementById("file-ip-1-preview");
+                preview.src = src;
+                preview.style.display = "block";
+            }
+        } else {
+            alert("You are only select image");
+            file.value = "";
+        }
+
+    }
+</script>
+<script type="text/javascript">
+    let editor;
+    ClassicEditor
+        .create(document.querySelector('#editor'), {
+            ckfinder: {
+                uploadUrl: 'https://example.com/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json'
+            },
+            toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'ckfinder', 'blockQuote', 'insertTable', 'undo', 'redo'],
+            heading: {
+                options: [
+                    { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                    { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                    { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' }
+                ]
+            },
+            //updateSourceElementOnDestroy: true
+            //toolbar: [ 'ckfinder', '|', 'heading', '|', 'bold', 'italic', '|', 'undo', 'redo' ]
+        })
+        .then(newEditor => {
+            editor = newEditor;
+        })
+
+        .catch(function (error) {
+            console.error(error);
+        });
+    document.querySelector('#btnSubmit').addEventListener('click', () => {
+        const editorData = editor.getData().replace(/<[^>]*>/gi, '').length;
+        if (!editorData) {
+            alert('Please enter content!');
+            e.preventDefault();
+        }
+    });
+</script>
+<script>
+    function showPreview(event) {
+        if (event.target.files.length > 0) {
+            var src = URL.createObjectURL(event.target.files[0]);
+            var preview = document.getElementById("file-ip-1-preview");
+            preview.src = src;
+            preview.style.display = "block";
+        }
+    }
+
+
+   
+</script>
+<script>
+    // Get a reference to our file input
+    const fileInput = document.querySelector('input[type="file"]');
+
+    // Create a new File object
+    const myFile = new File(['Hello World!'], '@Model.Image', {
+        type: 'text/plain',
+        lastModified: new Date(),
+    });
+
+    // Now let's create a DataTransfer to get a FileList
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(myFile);
+    fileInput.files = dataTransfer.files;
+</script>

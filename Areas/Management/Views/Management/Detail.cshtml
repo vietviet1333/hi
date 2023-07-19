@@ -1,0 +1,44 @@
+﻿@{
+    Layout = "_LayoutManagement";
+}
+@model List<Nexus_Manegement.Areas.Management.ModelView.OderView>
+<button onclick="history.back()" class="btn btn-secondary round" role="button" style="margin-left:10px; height: 46px;">
+    Back
+</button>
+
+
+<div class="card" style="margin: 30px;">
+    <div class="card-header">
+        <h4 class="card-title" style="text-transform: uppercase;">LIST ORDER OF @ViewBag.Namec</h4>
+    </div>
+    <div class="card-content">
+        <div class="card-body">
+            <p class="card-text">
+                List of services customers are using
+            </p>
+            <!-- Table with outer spacing -->
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>NAME SERVICEPLAN</th>
+                            <th>ODER DATE</th>
+                            <th>EXPIRY DATE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            <tr>
+                                <td class="text-bold-500">@Model[i].NameServicePlan</td>
+                                <td>@Model[i].Oderdate</td>
+                                <td class="text-bold-500">@Model[i].NameExpiryDate</td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

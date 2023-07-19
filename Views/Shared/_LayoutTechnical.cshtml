@@ -1,0 +1,247 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Technical Dashboard</title>
+
+    <link rel="stylesheet" href="~/Management/assets/css/bootstrap.css">
+
+    <link rel="stylesheet" href="~/Management/assets/vendors/chartjs/Chart.min.css">
+    <link rel="stylesheet" href="~/Management/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+    <link rel="stylesheet" href="~/Management/assets/css/app.css">
+    <link rel="shortcut icon" href="~/Management/assets/images/favicon.svg" type="image/x-icon">
+
+</head>
+<body>
+    <div id="app">
+        <div id="sidebar" class='active'>
+            <div class="sidebar-wrapper active">
+                <div class="sidebar-header">
+                    <img src="~/Management/assets/images/logo.svg" alt="" srcset="">
+                </div>
+                <div class="sidebar-menu">
+                    <ul class="menu">
+
+                        <li class='sidebar-title'>Main Menu</li>
+
+                        <li class="sidebar-item active ">
+
+                            <a href="/Technical" class='sidebar-link'>
+                                <i data-feather="home" width="20"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+
+
+
+                        <li class="sidebar-item  ">
+
+                            <a href="/Technical/Order" class='sidebar-link'>
+                                <i data-feather="file-plus" width="20"></i>
+                                <span>Order</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item  ">
+
+                            <a href="/Technical/Exchange" class="sidebar-link">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                                <span>Request an exchange</span>
+                            </a>
+
+
+                        </li>
+                        <li class="sidebar-item  ">
+
+                            <a href="/Technical/AboutToExpire" class="sidebar-link">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                <span>About to expire</span>
+                            </a>
+
+
+                        </li>
+
+                        <li class='sidebar-title'>Extra UI</li>
+
+
+
+                        <li class='sidebar-title'>Pages</li>
+
+
+
+                        <li class="sidebar-item  has-sub">
+
+                            <a href="#" class='sidebar-link'>
+                                <i data-feather="user" width="20"></i>
+                                <span>Authentication</span>
+                            </a>
+
+
+                            <ul class="submenu ">
+
+                                <li>
+                                    <a href="auth-login.html">Login</a>
+                                </li>
+
+                                <li>
+                                    <a href="auth-register.html">Register</a>
+                                </li>
+
+                                <li>
+                                    <a href="auth-forgot-password.html">Forgot Password</a>
+                                </li>
+
+                            </ul>
+
+                        </li>
+
+
+
+                        <li class="sidebar-item  has-sub">
+
+                            <a href="#" class='sidebar-link'>
+                                <i data-feather="alert-circle" width="20"></i>
+                                <span>Errors</span>
+                            </a>
+
+
+                            <ul class="submenu ">
+
+                                <li>
+                                    <a href="error-403.html">403</a>
+                                </li>
+
+                                <li>
+                                    <a href="error-404.html">404</a>
+                                </li>
+
+                                <li>
+                                    <a href="error-500.html">500</a>
+                                </li>
+
+                            </ul>
+
+                        </li>
+
+
+                    </ul>
+                </div>
+                <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+            </div>
+        </div>
+        <div id="main">
+            <nav class="navbar navbar-header navbar-expand navbar-light">
+                <a class="sidebar-toggler" href="#"><span class="navbar-toggler-icon"></span></a>
+                <button class="btn navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav d-flex align-items-center navbar-light ms-auto">
+                        <li class="dropdown nav-icon">
+                            <a href="#" data-bs-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user" id="count">
+                                <div class="d-lg-inline-block">
+                                    <i data-feather="bell"></i>
+                                    <span style="position:absolute;z-index:2;top:0; color:deepskyblue" id="contactNumber"></span>
+                                </div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-large" id="listContact" style="width: 28w0px;">
+                                @Html.Partial("_MessengerOrderExpired")
+                            </div>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" data-bs-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user" >
+                                <div class="avatar me-1">
+                                    <img src="~/Management/assets/images/avatar/avatar-s-1.png" alt="" srcset="">
+                                </div>
+                                <div class="d-none d-md-block d-lg-inline-block">Hiiiiiiiiiii</div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                
+                                <a class="dropdown-item" href="/Management/Logout"><i data-feather="log-out"></i> Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            @RenderBody()
+            <footer>
+                <div class="footer clearfix mb-0 text-muted">
+                    <div class="float-start">
+                        <p>2022 &copy; Voler</p>
+                    </div>
+                    <div class="float-end">
+                        <p>Crafted with <span class='text-danger'><i data-feather="heart"></i></span> by <a href="https://saugi.me">Saugi</a></p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <script src="~/Management/assets/js/feather-icons/feather.min.js"></script>
+    <script src="~/Management/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="~/Management/assets/js/app.js"></script>
+
+    <script src="~/Management/assets/vendors/chartjs/Chart.min.js"></script>
+    <script src="~/Management/assets/vendors/apexcharts/apexcharts.min.js"></script>
+    <script src="~/Management/assets/js/pages/dashboard.js"></script>
+
+    <script src="~/Management/assets/js/main.js"></script>
+
+    <script>
+        $.ajax({
+            url: 'http://localhost:5079/Technical/CountOrderExpiry',
+            datatype: 'html',
+            method: 'post',
+            data: {},
+            success: function (res) {
+                $("#contactNumber").html(res);
+
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        })
+        
+        $("#count").click(function () {
+            $.ajax({
+                url: 'http://localhost:5079/Technical/_MessengerOrderExpired',
+                datatype: 'html',
+                method: 'get',
+                success: function (res) {
+                    $("#listContact").html(res);
+
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        });
+    </script>
+    
+    <script>
+        $(document).ready(function () {
+
+            $("#myForm").hide();
+            $("#btnChange").mouseover(function (e) {
+                //e.preventDefault();
+                $("#myForm").show();
+
+            });
+            $("#btnChange").mouseout(function (e) {
+                //e.preventDefault();
+                $("#myForm").hide();
+
+            });
+        })
+    </script>
+</body>
+</html>
+
+
+

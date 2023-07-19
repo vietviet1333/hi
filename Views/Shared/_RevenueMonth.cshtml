@@ -1,0 +1,59 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<Nexus_Management.Areas.Accountant.ModelsView.OrderView>
+@*@using PagedList.Mvc
+@model PagedList.IPagedList<Nexus_Management.Areas.Accountant.ModelsView.OrderView>*@
+@*@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}*@
+<div class="table-responsive">
+    <table class="table table-hover mb-0">
+        <thead>
+            <tr>
+                <th>NO.</th>
+                <th>CUSTOMER NAME</th>
+                <th>SERVICE NAME</th>
+                <th>PRICE</th>
+                <th>QUANTITY</th>
+                <th>USAGE PACK</th>
+                <th>TOTAL</th>
+                <th>CONNECTION DATE</th>
+                <th>EXPIRATION DATE</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (TempData.ContainsKey("Message"))
+            {
+                <div class="alert alert-danger">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    @TempData["Message"]
+                </div>
+            }
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td>@i</td>
+                    <td class="text-bold-500">@Model[i].CustomerName</td>
+                    <td>@Model[i].ServiceName</td>
+                    <td class="text-bold-500">@Model[i].Price$</td>
+                    <td>@Model[i].Quantity</td>
+                    <td>@Model[i].UsagePack</td>
+                    <td>@Model[i].Total$</td>
+                    @if (Model[i].StatusService == 0)
+                    {
+                        <td>Waiting for technical processing</td>
+                        <td>Waiting for technical processing</td>
+                    }
+                    else
+                    {
+                        <td>@Model[i].ConnectionDate</td>
+                        <td>@Model[i].ExpirationDate</td>
+                    }
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div> 

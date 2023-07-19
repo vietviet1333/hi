@@ -1,0 +1,35 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var ls = (List<Nexus_Manegement.Areas.Technical.ModelsView.TimeExpiry>)ViewBag.model;
+}
+@if (ls != null)
+{
+    <h5 class='py-2 px-4'>Notifications</h5>
+    <ul class="list-group rounded-none">
+        <li class="list-group-item border-0 align-items-start">
+            <div>
+                @foreach (dynamic item in ls)
+                {
+                    if (Convert.ToDateTime(item.ExpirationDate) >= DateTime.Now)
+                    {
+                        <div class="dropdown-divider"></div>
+                        <h6 class='text-bold'>Order is about to expire</h6>
+                        <div id="collapseThree" class="pt-1 collapse show" aria-labelledby="headingThree" data-parent="#cardAccordion" style="">
+                            <div class="card-body">
+                                Customer: @item.CustomerName  -  Service Plan: @item.ServiceName
+                                <br>
+                                Expiration Date: @item.ExpirationDate
+                                <br>
+                                <span style="color:red">@item.TimeSpan more days until expiration</span>
+                            </div>
+                        </div>
+                        <a href="/Technical/AboutToExpire">See more</a>
+                    }
+
+                }
+            </div>
+        </li>
+    </ul>
+}

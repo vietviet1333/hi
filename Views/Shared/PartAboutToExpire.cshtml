@@ -1,0 +1,89 @@
+﻿
+
+<div class="main-content container-fluid">
+    <div class="row" id="table-head">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">About To Expire</h4>
+                </div>
+                <div class="card-content">
+                    <!-- table head dark -->
+                    <div class="table-responsive">
+                        <table class="table mb-0" id="tbMail">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>NO.</th>
+                                    <th>CUSTOMER</th>
+                                    <th>SERVICE PLAN</th>
+                                    <th>EMAIL</th>
+                                    <th>CONNECTION DATE</th>
+                                    <th>EXPIRATION DATE</th>
+                                    <th>TIME SPAN</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < ViewBag.lsData.Count; i++)
+                                {
+                                    if (Convert.ToDateTime(Model[i].ExpirationDate) >= DateTime.Now)
+                                    {
+                                        <tr id="@i">
+                                            <td class="text-bold-500">@i</td>
+                                            <td>@Model[i].CustomerName</td>
+                                            <td class="text-bold-500">@Model[i].ServiceName</td>
+                                            <td class="text-bold-500">@Model[i].MailCustomer</td>
+
+                                            <td>@Model[i].ConnectionDate</td>
+                                            <td>@Model[i].ExpirationDate</td>
+                                            <td style="color:red">@Model[i].TimeSpan more days until expiration</td>
+
+                                            <td>
+                                                <a id="btnSendMail" data-id="@i" data-service="@Model[i].ServiceName" data-mail="@Model[i].MailCustomer" data-timespan="@Model[i].TimeSpan"
+                                                   href="/Technical/SendMailAboutToExpire?mail=@Model[i].MailCustomer&&timeSpan=@Model[i].TimeSpan&&service=@Model[i].ServiceName">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail badge-circle badge-circle-light-secondary font-medium-1">
+                                                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                                        <polyline points="22,6 12,13 2,6"></polyline>
+                                                    </svg>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('a[id="btnSendMail"]').on('click', function (event) {
+            event.preventDefault();
+            var id = $(this).attr('data-id');
+            var dataService = $(this).attr('data-service');
+            var dataMail = $(this).attr('data-mail');
+            var dataTimeSpan = $(this).attr('data-timespan');
+            //
+            var sel = document.getElementById(id);
+            sel.remove();
+            //
+            $.ajax({
+                url: "/Technical/SendMailAboutToExpire",
+                data: {
+                    mail: dataMail,
+                    timeSpan: dataTimeSpan + " more days until expiration",
+                    service: dataService
+                }
+            }).done(function (data) {
+                $('#tbCompe').html(data);
+            })
+        });
+    });
+</script>

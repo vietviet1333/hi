@@ -1,0 +1,70 @@
+﻿@{
+    Layout = "_LayoutManagement";
+}
+@model Nexus_Manegement.Models.Store;
+<div class="col-md-6 col-12">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">STORE</h4>
+        </div>
+        <div class="card-content">
+            <div class="card-body">
+                <form class="form form-horizontal" action="/Management/Updatestore/?Id=@Model.ID" method="post">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Name</label>
+                            </div>
+                            <div class="col-md-8 form-group">
+                                <input type="text" id="first-name" class="form-control" name="name" value="@Model.Name" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Ward</label>
+                            </div>
+                            <div class="col-md-8 form-group">
+                                <select name="ward" style=" height: 30px; width: 370px; border: 5px;height: 40px;">
+                                    <option value="@Model.Ward" selected>Ward @Model.Ward</option>
+                                    <option value="1">Ward 1</option>
+                                    <option value="2">Ward 2</option>
+                                    <option value="3">Ward 3</option>
+                                    <option value="4">Ward 4</option>
+                                    <option value="5">Ward 5</option>
+                                    <option value="6">Ward 6</option>
+                                    <option value="7">Ward 7</option>
+                                    <option value="8">Ward 8</option>
+                                    <option value="9">Ward 9</option>
+                                    <option value="10">Ward 10</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label>District</label>
+                            </div>
+                            <div class="col-md-8 form-group">
+                                <select name="district" style="    height: 30px; width: 370px; border: 5px;height: 40px;">
+                                    <option value="@Model.DistrictID" selected>@Model.Distric</option>
+                                    <option value="1">Binh Thanh</option>
+                                    <option value="2">Go Vap</option>
+                                    <option value="3">5</option>
+                                    <option value="4">6</option>
+                                    <option value="5">7</option>
+                                    <option value="6">8</option>
+                                    <option value="7">1</option>
+                                    <option value="8">2</option>
+                                    <option value="9">3</option>
+                                    <option value="10">4</option>
+                                    <option value="11">Tan Binh</option>
+                                    <option value="12">Thu Duc</option>
+                                </select>
+                            </div>
+                           
+                            <div class="col-sm-12 d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
+                              
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

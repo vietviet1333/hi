@@ -1,0 +1,249 @@
+﻿@{
+    Layout = "_LayoutManagement";
+}
+@model List<Nexus_Manegement.Models.Store>
+<style>
+    #hide:hover {
+        background-color: #B22222;
+        color: white
+    }
+</style>
+@if (TempData.ContainsKey("ab"))
+{
+    <div id="alert" class="alert alert-success">@TempData["ab"]</div>
+}
+<div style="height: 50px;
+    text-align: center;
+    border-bottom: 0.2px solid black;
+    margin-bottom: 2px;">
+    <label style="    font-size: larger;
+    font-weight: 900;"><h2>STORE</h2></label>
+</div>
+<span style="z-index:100;overflow:visible;display:flex;justify-content:space-between" id="ta">
+    <div>
+    <button onclick="history.back()" class="btn btn-secondary round" role="button" style="margin-left:10px; height: 46px;">
+        Back
+    </button>
+
+    <a class="btn btn-secondary round" role="button" style="margin-left:10px;height:43px; margin-top:5px" id="cr">Add Store</a>
+    </div>
+    <div style="text-align: right; padding: 10px 50px;">
+        <form action="/Management/Filter" method="post" style="border-radius: 30px; display: inline-flex;border: 3px solid black;">
+            <select name="district" style="width: 200px; border: 5px; height: 40px;background-color: #f7faff; border-start-start-radius: 20px;border-end-start-radius: 20px;
+    text-align: -webkit-center;border-right: 1px solid gray; ">
+                <option selected value="13">All District</option>
+                @for(int i=0; i< ViewBag.District.Count; i++)
+                {
+                    <option value="@ViewBag.District[i].ID">@ViewBag.District[i].Name</option>
+                }
+              
+            </select>
+            <button type="submit" style="    border: none;background-color: #f7faff ; border-end-end-radius: 30px;border-start-end-radius: 30px;">
+                <i class="fa-solid fa-magnifying-glass-location" style="    font-size: x-large;  color: cornflowerblue;"></i>
+            </button>
+        </form>
+    </div>
+
+</span>
+
+<table class="table" style="margin-top:30px">
+    <thead>
+        <tr>
+            <th scope="col">STT</th>
+            <th scope="col">NAME</th>
+
+            <th scope="col">DISTRICT</th>
+            <th scope="col">ADDRESS</th>
+            <th scope="col">&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <tr>
+                <td>@i</td>
+                <td >@Model[i].Name</td>
+
+                <td>@Model[i].Distric</td>
+                <td>@Model[i].Ward</td>
+                @if (Model[i].status == false)
+                {
+                    <td>
+                        <a href="@Url.Action("Active","Management")?id=@Model[i].ID"><i style="font-size: 25px;color:#B22222" class="fa-solid fa-circle-xmark"></i></a>
+                        <a class="edit" data-id="@Model[i].ID" data-name="@Model[i].Name" data-district="@Model[i].Distric" data-ward="@Model[i].Ward" href="">
+                            <i style="font-size: 25px;" class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <a href="@Url.Action("Disactive","Management")?id=@Model[i].ID"><i style="font-size: 25px;color:#228B22" class="fa-solid fa-circle-check"></i></a>
+                        <a class="edit" data-id="@Model[i].ID" data-name="@Model[i].Name" data-district="@Model[i].Distric" data-ward="@Model[i].Ward" href="">
+                            <i style="font-size: 25px;" class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                    </td>
+                }
+
+
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<div style="height:100%; width:100%;background: rgb(83, 96, 105, 0.6) ;position:absolute;display:none;z-index:100000;top:0;height:800px;" id="formm">
+    <form class="px-md-2" action="/Management/Addbranch" method="post" style="padding: 20px 20px;border-radius:10px;width:800px;height:350px; position: absolute;border:2px solid rgba(225,225,225,0.7);
+  top: 40%;
+  left: 40%;
+
+  transform: translate(-50%, -50%);background-color:whitesmoke">
+        <i class="fa-solid fa-xmark" id="hide" style="position:absolute;top:0;width:30px;text-align:center;align-items:center;justify-content:center;height:20px;right:0;cursor:pointer;border-start-end-radius: 8px;"></i>
+        <h3 style="margin-bottom: 50px;display:flex">  ADD BRANCH </h3>
+        <div>
+            <div style="height: 50px;">
+                <label class="form-label" for="form3Example1q" style="font-weight: 800;color: #053382;margin-right: 13px;  margin-left: 20px;"><i class="fa-solid fa-shop" style="height:50px"></i> Name</label>
+
+                <input type="text" name="name" maxlength="25" style="    width: 370px; border: 5px;height: 40px;" placeholder="Name" required />
+            </div>
+            <div style="height: 50px;">
+                <label for="exampleInputPassword1" class="form-label" style="font-weight: 800;color: #053382;margin-right: 12px; margin-left: 20px;"> <i class="fa-sharp fa-solid fa-location-dot"></i> District</label>
+
+                <select id="district" name="district" style="    height: 30px; width: 370px; border: 5px;height: 40px;">
+                    @for (int i = 0; i < ViewBag.District.Count; i++)
+                    {
+                        <option value="@ViewBag.District[i].ID">@ViewBag.District[i].Name</option>
+                    }
+                </select>
+            </div>
+            <div style="height: 50px;">
+                <label for="exampleInputPassword1" class="form-label" style="font-weight: 800;color:#053382; margin-left: 20px;"><i class="fa-sharp fa-solid fa-location-crosshairs"></i> Address</label>
+
+                <input type="text" name="ward" maxlength="25" style="    width: 370px; border: 5px;height: 40px;" placeholder="Address" required />
+            </div>
+
+           
+        </div>
+
+        <br />
+
+
+        <button type="submit" class="btn btn-secondary round" style="    margin-left: 26px;" id="success">Submit</button>
+        <img src="~/Management/assets/images/adst1.png" alt="" style=" height: 250px;top: 40px;right: 30px;position: absolute;" srcset="">
+    </form>
+
+</div>
+
+@*=============Form Edit============*@
+<div style="height:100%; width:100%;background: rgb(83, 96, 105, 0.6) ;position:absolute;display:none;z-index:100000;top:0;height:800px;" id="Edit_formm">
+    <form class="px-md-2" action="" method="post" style="padding: 20px 20px;border-radius:10px;width:800px;height:350px; position: absolute;border:2px solid rgba(225,225,225,0.7);
+  top: 40%;
+  left: 40%;
+
+  transform: translate(-50%, -50%);background-color:whitesmoke">
+        <i class="fa-solid fa-xmark" id="Edit_hide" style="position:absolute;top:0;width:30px;text-align:center;align-items:center;justify-content:center;height:20px;right:0;cursor:pointer;border-start-end-radius: 8px;"></i>
+        <h3 style="margin-bottom: 50px;display:flex">  EDIT STORE </h3>
+        <div>
+            <div style="height: 50px;">
+                <label class="form-label" for="form3Example1q" style="font-weight: 800;color: #053382;margin-right: 1px;  margin-left: 20px;"><i class="fa-solid fa-shop" style="height:50px;margin-right:13px"></i> Name</label>
+
+                <input type="text" name="Edit_name" maxlength="25" style="    width: 370px; border: 5px;height: 40px;" placeholder="Name" required />
+            </div>
+
+            <div style="height: 50px;">
+                <label for="exampleInputPassword1" class="form-label" style="font-weight: 800;color: #053382;margin-right: 13px; margin-left: 20px;"> <i class="fa-sharp fa-solid fa-location-dot"></i> District</label>
+
+                <select id="Edit_district" name="Edit_district" style="    height: 30px; width: 370px; border: 5px;height: 40px;">
+                    @for (int i = 0; i < ViewBag.District.Count; i++)
+                    {
+                        <option value="@ViewBag.District[i].ID">@ViewBag.District[i].Name</option>
+                    }
+                </select>
+            </div>
+            <div style="height: 50px;">
+                <label for="exampleInputPassword1" class="form-label" style="font-weight: 800;color:#053382; margin-left: 20px;"><i class="fa-sharp fa-solid fa-location-crosshairs"></i> Address</label>
+                <input type="text" name="Edit_ward" maxlength="25" style="    width: 370px; border: 5px;height: 40px;" placeholder="Address" required />
+              
+            </div>
+
+        </div>
+
+        <br />
+
+
+        <button type="submit" class="btn btn-secondary round" style="    margin-left: 26px;" id="success">Submit</button>
+        <img src="~/Management/assets/images/adst1.png" alt="" style=" height: 250px;top: 40px;right: 30px;position: absolute;" srcset="">
+    </form>
+
+</div>
+
+@*dung co gan duong dan script tao lao*@
+<script>
+
+    const showBtn = document.querySelector('#cr')
+    const hideBtn = document.querySelector('#hide')
+    const Edit_hideBtn = document.querySelector('#Edit_hide')
+    const edits = document.querySelectorAll('.edit')
+    const div = document.querySelector('#formm')
+    const Edit_Modal = document.querySelector('#Edit_formm')
+    const Edit_Form = document.querySelector('#Edit_formm form')
+    const ta = document.querySelector('#ta')
+    const table = document.querySelector('.table')
+    const name = document.querySelector('input[name="Edit_name"]')
+    const districts = document.querySelectorAll('#Edit_district option')
+    const wards = document.querySelector('input[name="Edit_ward"] ')
+        scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+
+
+
+    showBtn.addEventListener('click', () => {
+        div.style.display = 'block';
+        ta.style.opacity = '10%';
+
+            window.onscroll = function () {
+                window.scrollTo(scrollLeft, scrollTop);
+            };
+    })
+    for (var i = 0; i < edits.length; i++) {
+        edits[i].addEventListener('click', function (e) {
+            e.preventDefault();
+            window.scrollTo(scrollLeft, scrollTop);
+
+            Edit_Modal.style.display = 'block';
+            ta.style.opacity = '10%';
+            var id = this.getAttribute("data-id");
+            Edit_Form.setAttribute("action", "/Management/Updatestore/?Id=" + id + "");
+            wards.value = this.getAttribute("data-ward");
+            var b = this.getAttribute("data-district");
+            name.value = this.getAttribute("data-name");
+           
+            districts.forEach(function (district) {
+                if (district.textContent == b) { district.selected = "Selected"; }
+            })
+        })
+    }
+    hideBtn.addEventListener('click', () => {
+        div.style.display = 'none';
+        Edit_Modal.style.display = 'none';
+        ta.style.opacity = '100%';
+        name.value = "";
+        wards[0].selected = "Selected";
+        districts[0].selected = "Selected";
+        window.onscroll = function () { };
+    })
+    Edit_hideBtn.addEventListener('click', () => {
+        Edit_Modal.style.display = 'none';
+        ta.style.opacity = '100%';
+       
+        name.value = "";
+        wards[0].selected = "Selected";
+        districts[0].selected = "Selected";
+    })
+
+    setTimeout(function () {
+        $('#alert').fadeOut("slow");
+    }, 5000);
+
+</script>

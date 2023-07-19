@@ -1,0 +1,41 @@
+﻿@{
+    Layout = "_LayoutManagement";
+}
+@model List<Nexus_Manegement.Models.Customer>
+<div style="height: 50px;
+    text-align: center;
+    border-bottom: 0.2px solid black;
+    margin-bottom: 2px;">
+    <label style="    font-size: larger;
+    font-weight: 900;"><h2>CUSTOMER</h2></label>
+</div>
+
+
+
+<button onclick="history.back()" class="btn btn-secondary round" role="button" style="margin-left:10px; height: 46px;">
+    Back
+</button>
+
+<table class="table table-light mb-0">
+    <thead>
+        <tr>
+            <th>NAME</th>
+          
+            <th>PHONE</th>
+            <th>EMAIL</th>
+            <th> &nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <tr>
+                <td class="text-bold-500">@Model[i].Name</td>
+               
+                <td class="text-bold-500">@Model[i].Phone</td>
+                <td>@Model[i].Email</td>
+                <td><a href="@Url.Action("Detail","Management")?id=@Model[i].ID"><i class="fa-solid fa-angle-right"></i></a></td>
+            </tr>
+        }
+    </tbody>
+</table>

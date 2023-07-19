@@ -1,0 +1,104 @@
+﻿
+@{
+    ViewData["Title"] = "Exchange";
+    Layout = "~/Views/Shared/_LayoutTechnical.cshtml";
+}
+@model List<Nexus_Manegement.Areas.Technical.ModelsView.ExchangeView>
+<div class="main-content container-fluid">
+    <div class="page-title">
+        <h3>Order (@DateTime.Now.Year)</h3>
+        <p class="text-subtitle text-muted">A good order table to display your statistics</p>
+@*        <div class="col-md-3 mb-4">
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupSelect01">Year</label>
+                <select class="form-select" id="selectYear" name="selectYear">
+                    <option value="@DateTime.Now.Year">Choose...</option>
+                    @for (int i = 0; i < ViewBag.Year.Count; i++)
+                    {
+                        <option value="@ViewBag.Year[i].OrderDate">@ViewBag.Year[i].OrderDate</option>
+                    }
+                </select>
+            </div>
+        </div>*@
+    </div>
+    <section class="section">
+        <div class="row" id="table-hover-row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Management Order</h4>
+                    </div>
+                    <div class="card-content">
+                        <!-- table hover -->
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>NO.</th>
+                                        <th>ID BILL</th>
+                                        <th>CUSTOMER NAME</th>
+                                        <th>SERVICE NAME</th>
+                                        <th>QUANTITY CHANGE</th>
+
+                                        <th>USAGE PACK</th>
+                                        <th>STATUS</th>
+
+                                        <th>EXCHANGE DATE</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < Model.Count; i++)
+                                    {
+                                        <tr>
+                                            <td>@i</td>
+                                            <td>@Model[i].BillID</td>
+                                            <td class="text-bold-500">@Model[i].CustomerName</td>
+                                            <td>@Model[i].ServicePlanName</td>
+                                            <td>@Model[i].QuantityChange</td>
+                                            <td>@Model[i].UsagePack</td>
+                                            @if (Model[i].Status == false)
+                                            {
+                                                <td>Waiting for technical processing</td>
+                                                <td>Waiting for technical processing</td>
+
+                                                <td>
+                                                    <a href="/Technical/SaveExchange?id=@Model[i].ID" class="btn icon icon-left btn-success">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle">
+                                                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                                        </svg> Success
+                                                    </a>
+                                                </td>
+                                            }
+                                            else if (Model[i].Status == true)
+                                            {
+                                                <td>
+                                                    <span class="badge bg-success">Successful change</span>
+                                                </td>
+                                                <td>
+                                                    @Model[i].ExchangeDate
+                                                </td>
+                                            }
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+@*                <div class="dataTable-bottom">
+
+                    <a href="/Technical/Order?pageNumber=@(Model.PageIndex-1)" class="btn btn-default @prevDisabled">
+                        Previous
+                    </a>
+                    <a href="/Technical/Order?pageNumber=@(Model.PageIndex+1)" class="btn btn-default @nextDisabled">
+                        Next
+                    </a>
+                </div>*@
+            </div>
+        </div>
+    </section>
+</div>
+
+

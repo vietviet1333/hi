@@ -1,0 +1,109 @@
+﻿@{
+    Layout = null;
+}
+<style>
+    .table_header {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+        .table_header input {
+            width: 45%;
+        }
+</style>
+<a class="btn btn-success" id="btn_addPosition">Add new Position</a>
+<div class="table_header">
+    <input type="search" id="value_search" class="form-control" />
+    <button class="btn btn-info" onclick="SerachPosition()"><i class="fa-solid fa-magnifying-glass" style="font-size: 20px;"></i></button>
+</div>
+<br />
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Position Name</th>
+            <th>Edit/Delete</th>
+        </tr>
+    </thead>
+    <tbody id="Data_Table"></tbody>
+
+</table>
+<!---->
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    //
+    //
+    SerachPosition = () => {
+        var check = $("#value_search").val();
+        var temp = { data: check };
+        debugger
+        if (temp.data === null || temp.data == '') {
+            alert("Please enter for input serach!");
+        } else {
+            $.ajax({
+                url: `/PositionV3/FindById/`,
+                type: "Get",
+                data: temp,
+                dataType: 'json',
+                contentType: "application/json;charset=utf-8",
+                success: (data) => {
+                    //console.log(data);
+                    var object = '';
+                    var stt = 0;
+                    if (data) {
+                        debugger
+                        console.log(data);
+                        console.log(data.name);
+                        $.each(data, (index, data) => {
+                            object += '<tr>';
+                            object += '<td>' + index + '</td>';
+                            object += '<td>' + data.name + '</td>';
+                            object += '<td>' + `<button class="btn btn-warning"    onclick="FormEdit(${data.id})">Edit</button> ` +
+                                //` <button class="btn btn-danger"   onclick="if (!confirm('Are you sure?')) { return false }else{Delete(${data.id})}"    >Del</button>` +
+                                '</td>';
+
+                            object += '</tr>';
+                        });
+                        $("#Data_Table").html(object);
+                    } else {
+                        alert("No data");
+                    }
+                },
+                error: () => {
+                    alert("Err");
+                }
+            });
+        }
+    };
+    function ListPosition() {
+        $.ajax({
+            url: "PositionV3/Cbx_position",
+            type: "Get",
+            dataType: 'Json',
+            contentType: "application/json;charset=utf-8",
+            success: (data) => {
+                debugger
+                //debugger
+                //if (status) {
+                var object = '';
+                $.each(data, function (index, item) {
+                    //console.log(data);
+                    //console.log("index: " + index + " || item: " + item)
+                    object += '<tr>';
+                    object += '<td>' + index + '</td>';
+                    object += '<td>' + item.name + '</td>';
+                    object += '<td>' + `<button class="btn btn-warning"  onclick="FormEdit(${item.id})"">Edit</button> ` /*+ ` <button class="btn btn-danger"  onclick="if (!confirm('Are you sure?')) { return false }else{Delete(${item.id}) }"   >Del</button>`*/ + '</td>';
+                    object += '</tr>';
+
+                });
+                $("#Data_Table").html(object);
+                //}
+            },
+            error: () => {
+                alert("Can't display");
+            }
+        });
+    }
+
+</script>

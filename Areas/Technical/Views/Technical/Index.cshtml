@@ -1,0 +1,231 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutTechnical.cshtml";
+}
+@model Nexus_Manegement.Areas.Technical.ModelsView.ProfileView
+<div class="main-content container-fluid">
+    <div class="page-title">
+        <h3>Dashboard</h3>
+        <p class="text-subtitle text-muted">A good dashboard to display your statistics</p>
+    </div>
+    <section class="section">
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-heading p-1 pl-3"><strong>My Profile</strong></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 col-12">
+                                <div class="pl-3">
+                                    <img width="230px" height="auto" src="https://i.pinimg.com/564x/64/f1/8f/64f18f8c11fe15eb5400d45e1de40460.jpg" />
+
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-12">
+                                <div class="form-group">
+                                    <label for="disabledInput">Position</label>
+                                    <input type="text" class="form-control" id="readonlyInputPos" name="posname" readonly value="@Model.PositionName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="disabledInput">Name</label>
+                                    <input type="text" class="form-control" id="readonlyInputName" name="name" readonly value="@Model.Name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="disabledInput">Username</label>
+                                    <input type="text" class="form-control" id="readonlyInputUser" name="username" readonly value="@Model.Username">
+                                </div>
+                                <div class="form-group">
+                                    <label for="disabledInput">Email</label>
+                                    <input type="text" class="form-control" id="readonlyInputEmail" name="email" readonly value="@Model.Email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="disabledInput">Phone</label>
+                                    <input type="text" class="form-control" id="readonlyInputPhone" name="phone" readonly value="@Model.Phone">
+                                </div>
+                                <button class="btn icon btn-primary" id="btnChange" onclick="myFunction()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                    </svg>
+                                </button>
+
+                                <button class="btn icon btn-primary" id="btnSaveChange" onclick="functionSave()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                    </svg>
+                                    Save Change
+                                </button>
+                                <button class="btn btn-light" id="btnCancel" onclick="functionCancelProfile()">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card ">
+                    <div class="card-header">
+                        <h4><strong>Change Password</strong></h4>
+                    </div>
+                    <div class="card-body" style="position: relative;">
+                        <div class="form-group">
+                            <label for="disabledInput">Password</label>
+                            <input type="password" class="form-control" id="readonlyInputOldPass" name="oldPass" readonly value="">
+                        </div>
+                        <div class="invalid-feedback" id="alertMessPass">
+                            <i class="bx bx-radio-circle"></i>
+                            This is invalid state.
+                        </div>
+                        <div class="form-group">
+                            <label for="disabledInput">New Password</label>
+                            <input type="password" class="form-control" id="readonlyInputNewPass" name="newPass" readonly value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="disabledInput">ConfirmPass</label>
+                            <input type="password" class="form-control" id="readonlyInputConfirmPass" name="confirmPass" readonly value="">
+                        </div>
+                        <div class="invalid-feedback" id="alertMess">
+                            <i class="bx bx-radio-circle"></i>
+                            This is invalid state.
+                        </div>
+
+                        <button class="btn icon btn-primary" id="btnChangePass" onclick="myFunctionPass()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                            </svg>
+                        </button>
+
+                        <button class="btn icon btn-primary" id="btnSaveChangePass" onclick="functionSavePass()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                            </svg>
+                            Save Change
+                        </button>
+                        <button class="btn btn-light" id="btnCancelPass" onclick="functionCancelPass()">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+<script>
+    $("#btnSaveChange").hide();
+    $("#btnSaveChangePass").hide();
+    $("#btnCancel").hide();
+    $("#btnCancelPass").hide();
+
+    function myFunction() {
+        document.getElementById("readonlyInputName").readOnly = false;
+        document.getElementById("readonlyInputUser").readOnly = false;
+        document.getElementById("readonlyInputEmail").readOnly = false;
+        document.getElementById("readonlyInputPhone").readOnly = false;
+
+
+        $("#btnChange").hide();
+        $("#btnSaveChange").show();
+        $("#btnCancel").show();
+    }
+    function functionSave() {
+        $.ajax({
+            type: "Post",
+            url: "/Technical/ChangeProfile?name=" + $("#readonlyInputName").val()
+                + "&&username=" + $("#readonlyInputUser").val()
+                + "&&email=" + $("#readonlyInputEmail").val()
+                + "&&phone=" + $("#readonlyInputPhone").val(),  //remember change the controller to your owns.
+            success: function (data) {
+                window.location.reload();
+            },
+            error: function (response) {
+                console.log(response.responseText);
+            }
+        });
+    };
+    $("#alertMessPass").hide();
+    $("#alertMess").hide();
+
+    function myFunctionPass() {
+        document.getElementById("readonlyInputOldPass").readOnly = false;
+        document.getElementById("readonlyInputNewPass").readOnly = false;
+        document.getElementById("readonlyInputConfirmPass").readOnly = false;
+        $("#btnChangePass").hide();
+        $("#btnSaveChangePass").show();
+        $("#btnCancelPass").show();
+    }
+    function functionSavePass() {
+        $.ajax({
+            type: "Post",
+            url: "/Technical/ChangeProfile?name=" + $("#readonlyInputName").val()
+                + "&&username=" + $("#readonlyInputPosPass").val()
+                + "&&email=" + $("#readonlyInputNewPass").val()
+                + "&&phone=" + $("#readonlyInputConfirmPass").val(),  //remember change the controller to your owns.
+            success: function (data) {
+                window.location.reload();
+            },
+            error: function (response) {
+                console.log(response.responseText);
+            }
+        });
+    };
+    function functionSavePass() {
+        if ($("#readonlyInputOldPass").val() == @Model.Password) {
+            $("#alertMessPass").hide();
+
+            if ($("#readonlyInputConfirmPass").val() == $("#readonlyInputNewPass").val()) {
+                $.ajax({
+                    type: "Post",
+                    url: "/Technical/ChangePass?newPass=" + $("#readonlyInputNewPass").val(),  //remember change the controller to your owns.
+                    success: function (data) {
+                        window.location.reload();
+                    },
+                    error: function (response) {
+                        console.log(response.responseText);
+                    }
+                });
+            }
+            else {
+                $("#alertMess").show();
+            }
+        } else {
+            $("#alertMessPass").show();
+        }
+    };
+    function functionCancelProfile() {
+        $('input[id=readonlyInputName').val('@Model.Name');
+        $('input[id=readonlyInputUser').val('@Model.Username');
+        $('input[id=readonlyInputEmail').val('@Model.Email');
+        $('input[id=readonlyInputPhone').val('@Model.Phone');
+
+        document.getElementById("readonlyInputName").readOnly = true;
+        document.getElementById("readonlyInputUser").readOnly = true;
+        document.getElementById("readonlyInputEmail").readOnly = true;
+        document.getElementById("readonlyInputPhone").readOnly = true;
+
+
+        $("#btnChange").show();
+        $("#btnSaveChange").hide();
+        $("#btnCancel").hide();
+    }
+    function functionCancelPass() {
+        $('input[id=readonlyInputOldPass').val('');
+        $('input[id=readonlyInputNewPass').val('');
+        $('input[id=readonlyInputConfirmPass').val('');
+
+        document.getElementById("readonlyInputOldPass").readOnly = true;
+        document.getElementById("readonlyInputNewPass").readOnly = true;
+        document.getElementById("readonlyInputConfirmPass").readOnly = true;
+        $("#btnChangePass").show();
+        $("#btnSaveChangePass").hide();
+        $("#btnCancelPass").hide();
+        $("#alertMess").hide();
+        $("#alertMessPass").hide();
+    }
+</script>

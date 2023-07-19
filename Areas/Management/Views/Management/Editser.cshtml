@@ -1,0 +1,182 @@
+﻿@using Nexus_Manegement.Models;
+@using Newtonsoft.Json;
+
+@{
+    Layout = "_LayoutManagement";
+}
+@{
+    var ExpiryDate = Nexus_Manegement.Areas.Management.Dao.ExpiryDateDao.Instance.ExpiryDates;
+    var Category = Nexus_Manegement.Areas.Management.Dao.CategoryDao.Instance.Categories;
+}
+@model Nexus_Manegement.Models.ServicePlan;
+<div style="height: 50px;
+    text-align: center;
+    border-bottom: 0.2px solid black;
+    margin-bottom: 2px;">
+    <label style="    font-size: larger;
+    font-weight: 900;"><h2>SERVICE PLAN</h2></label>
+</div>
+<button onclick="history.back()" class="btn btn-secondary round" role="button" style="margin-left:10px; height: 46px;">
+    Back
+</button>
+<br />
+
+
+<div class="card" id="ca" style="margin: 20px 50px;">
+    <div class="card-header">
+        <h4 class="card-title">EDIT SERVICEPLAN</h4>
+    </div>
+    <div class="card-content">
+        <div class="card-body">
+            <form class="form form-vertical" action="/Management/Updateser/?id=@Model.ID" method="post" enctype="multipart/form-data" id="sectionForm">
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="first-name-vertical">Name</label>
+                                <input type="text" id="first-name-vertical" class="form-control" name="name" required placeholder="Name" value="@Model.Name">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="email-id-vertical">Price</label>
+                                <input type="number" id="email-id-vertical" class="form-control" name="price" required placeholder="Price" value="@Model.Price">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="contact-info-vertical">Category</label>
+                                <select name="category" class="form-control" id="category">
+
+                                    @for (int i = 0; i < Category.Count; i++)
+                                    {
+                                        <option value="@Category[i].ID">@Category[i].Name</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="password-vertical">Image</label>
+                                <input type="file" accept="image/*" class="form-control" name="Image" class="col-md-10" onchange="showPreview(event);" required value="@Model.Image" src="~/Image/@Model.Image">
+                            </div>
+                            <div class="preview col-md-6 form-group mb-5">
+                                <img id="file-ip-1-preview" src="~/Image/@Model.Image" style="max-height:300px;width:auto">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="password-vertical">Description</label>
+                                <textarea name="description" class="form-control" placeholder="This is some sample content.">@Model.Description</textarea>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="col-form-label">Expiry Date</label>
+                                <br />
+                                @{
+                                    List<Option> lsOption = new List<Option>();
+                                    try
+                                    {
+                                        var options = JsonConvert.DeserializeObject<List<Option>>(Model.Options);
+                                        foreach (var item in options)
+                                        {
+                                            lsOption.Add(item);
+                                        }
+                                    }
+                                    catch (Exception)
+                                    {
+
+                                    }
+                                    //
+                                    for (int i = 0; i < ExpiryDate.Count; i++)
+                                    {
+                                        if (lsOption.Any(a=>a.ID==ExpiryDate[i].ID))
+                                        {
+                                            <input type="checkbox" checked name="1" value="@ExpiryDate[i].ID">
+                                            <label class="col-form-label" for="ch1">@ExpiryDate[i].Name</label>
+                                        }else
+                                        {
+                                            <input type="checkbox" name="1" value="@ExpiryDate[i].ID">
+                                            <label class="col-form-label" for="ch1">@ExpiryDate[i].Name</label>
+                                        }
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
+                            <button type="reset" class="btn btn-light-secondary me-1 mb-1">Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showPreview(event) {
+        if (event.target.files.length > 0) {
+            var src = URL.createObjectURL(event.target.files[0]);
+            var preview = document.getElementById("file-ip-1-preview");
+            preview.src = src;
+            preview.style.display = "block";
+        }
+    }
+    function myFunction() {
+        var x = document.getElementById("ca");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+
+        } else {
+            x.style.display = "none";
+        }
+    }
+    (function () {
+        const form = document.querySelector('#sectionForm');
+        const checkboxes = form.querySelectorAll('input[type=checkbox]');
+        const checkboxLength = checkboxes.length;
+        const firstCheckbox = checkboxLength > 0 ? checkboxes[0] : null;
+
+        function init() {
+            if (firstCheckbox) {
+                for (let i = 0; i < checkboxLength; i++) {
+                    checkboxes[i].addEventListener('change', checkValidity);
+                }
+
+                checkValidity();
+            }
+        }
+
+        function isChecked() {
+            for (let i = 0; i < checkboxLength; i++) {
+                if (checkboxes[i].checked) return true;
+            }
+
+            return false;
+        }
+
+        function checkValidity() {
+            const errorMessage = !isChecked() ? 'At least one checkbox must be selected.' : '';
+            firstCheckbox.setCustomValidity(errorMessage);
+        }
+
+        init();
+    })();
+</script>
+<script>
+    // Get a reference to our file input
+    const fileInput = document.querySelector('input[type="file"]');
+
+    // Create a new File object
+    const myFile = new File(['Hello World!'], '@Model.Image', {
+        type: 'text/plain',
+        lastModified: new Date(),
+    });
+
+    // Now let's create a DataTransfer to get a FileList
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(myFile);
+    fileInput.files = dataTransfer.files;
+</script>

@@ -1,0 +1,133 @@
+﻿@{
+    ViewData["Title"] = "_LayoutManagement";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Voler Admin Dashboard</title>
+
+    <link rel="stylesheet" href="~/Management/assets/css/bootstrap.css">
+
+    <link rel="stylesheet" href="~/Management/assets/vendors/chartjs/Chart.min.css">
+
+    <link rel="stylesheet" href="~/Management/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+    <link rel="stylesheet" href="~/Management/assets/css/app.css">
+    <link rel="shortcut icon" href="~/Management/assets/images/favicon.svg" type="image/x-icon">
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.0/classic/ckeditor.js"></script>
+    <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
+</head>
+<body>
+    <div id="app">
+        <div id="sidebar" class='active'>
+            <div class="sidebar-wrapper active">
+                <div class="sidebar-header" style="padding:unset">
+                    <img src="~/Management/assets/images/nexu.jpg" alt="" style="    font-weight: 900;  height: 80px; margin-top: 40px;margin-left: 10px;" srcset="">
+                </div>
+                <div class="sidebar-menu">
+                    <ul class="menu">
+
+
+                        <li class='sidebar-title'>Main Menu</li>
+
+
+
+                      
+                        <li class="sidebar-item active ">
+
+                            <a href="/Management/Store" class='sidebar-link'>
+                              
+                                <span>STORE</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item active ">
+
+                            <a href="/Management/Event" class='sidebar-link'>
+                              
+                                <span>BLOG</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item active ">
+
+                            <a href="/Management/AccountClient" class='sidebar-link'>
+                             
+                                <span>ACCOUNT CLIENT</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item active ">
+
+                            <a href="/Management/Addserviceplan" class='sidebar-link'>
+                            
+                                <span>SERVICE PLAN</span>
+                            </a>
+                        </li>
+
+                    
+
+
+
+                </div>
+                <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+            </div>
+        </div>
+        <div id="main">
+            <nav class="navbar navbar-header navbar-expand navbar-light">
+                <a class="sidebar-toggler" href="#"><span class="navbar-toggler-icon"></span></a>
+                <button class="btn navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav d-flex align-items-center navbar-light ms-auto">
+                       
+                        <li class="dropdown">
+                            <a href="#" data-bs-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                                <div class="avatar me-1">
+                                    <img src="~/image/oip.jpg" />
+                                </div>
+                                <div class="d-none d-md-block d-lg-inline-block">Hi, Management</div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item" href="/Management/profile"><i data-feather="user"></i> Account</a>
+                                <a class="dropdown-item" href="/Management/Changepass"><i data-feather="settings"></i> Change password</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/Management/Logout"><i data-feather="log-out"></i> Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div id="succes" style="color:green;position:fixed;left:5px;top:0">@TempData["success"]</div>
+            <div class="main-content container-fluid">
+            @RenderBody()
+            </div>
+            @*</div>*@
+            <footer>
+                <div class="footer clearfix mb-0 text-muted">
+                    <div class="float-start">
+                        <p>2022 &copy; Voler</p>
+                    </div>
+                    <div class="float-end">
+                        <p>Crafted with <span class='text-danger'><i data-feather="heart"></i></span> by <a href="https://saugi.me">Saugi</a></p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="~/Management/assets/js/feather-icons/feather.min.js"></script>
+    <script src="~/Management/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="~/Management/assets/js/app.js"></script>
+
+    <script src="~/Management/assets/vendors/chartjs/Chart.min.js"></script>
+    <script src="~/Management/assets/vendors/apexcharts/apexcharts.min.js"></script>
+    <script src="~/Management/assets/js/pages/dashboard.js"></script>
+
+    <script src="~/Management/assets/js/main.js"></script>
+</body>
+</html>
+
+

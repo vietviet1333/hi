@@ -1,0 +1,164 @@
+﻿<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<style>
+    .table_header {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+        .table_header input {
+            max-width: 45%;
+        }
+</style>
+<h3 class="alert-success" id="alertMess" style="display: none">Add or update success</h3>
+<button class="btn btn-success" id="showModal"><i class="fa-solid fa-user-plus" style=""></i> &nbsp; &nbsp;  Add new Employee</button>
+<div class="table_header">
+    <input type="search" id="inputSearch" class="form-control" />
+    <button class="btn btn-info" onclick="Serach()"> &nbsp;<i class="fa-solid fa-magnifying-glass"></i></button>
+</div>
+<br />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Username</th>
+            <th>Position</th>
+            <th>Fullname</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Edit/Delete</th>
+        </tr>
+    </thead>
+    <tbody id="Tbl_Employee">
+    </tbody>
+</table>
+<!---->
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+
+<script>
+    function Serach() {
+        var inputS = $("#inputSearch").val();
+        var data = { data: inputS };
+        console.log(data.data);
+        debugger
+        if (!data.data === true) {
+            alert("Please enter for input serach")
+        } else {
+            $.ajax({
+                url: `/EmployeeT7/Find/`,
+                type: "Get",
+                data: data,
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: (result) => {
+                    if (result) {
+                        var object = '';
+                        $.each(result, (index, item) => {
+
+
+                            //console.log(result);
+                            object += '<tr>';
+                            object += '<td>' + index + '</td>';
+                            object += '<td>' + item.username + '</td>';
+                            object += '<td>' + item.position + '</td>';
+                            object += '<td>' + item.name + '</td>';
+                            object += '<td>' + item.phone + '</td>';
+                            object += '<td>' + item.email + '</td>';
+                            if (item.status) {
+                                object += '<td>' + `<i class="fa-solid fa-user-gear" style="color: green; font-size: 20px; text-center: center;" onclick="ActiveOrDisactive(${item.id})"></i>` + '</td>';
+                            } else {
+                                object += '<td>' + `<i class="fa-solid fa-user-lock" style="color: red; font-size: 20px; text-center: center;" onclick="ActiveOrDisactive(${item.id})"></i>` + '</td>';
+                            }
+                            object += '<td>' + `<i class="fa-solid fa-user-pen" style="font-size: 20px; color: blue" onclick="FormEdit(${item.id})" ></i>`
+
+                                /*+ '   ' + `<button class="btn btn-danger" onclick="if (!confirm('Are you sure?')) { return false }else{Delete(${item.id}) }"  >Delete</button>` */ + '</td>';
+
+                            object += '</tr>';
+                        });
+
+                        $("#Tbl_Employee").html(object);
+                    } else {
+
+                        alert("Not found");
+                    }
+                },
+                error: () => {
+                    alert("Err for search");
+                }
+            });
+        };
+    };
+
+    function Cbx_Position() {
+        $.ajax({
+            url: '/EmployeeT7/Cbx_position/',
+            type: 'Get',
+            dataType: 'Json',
+            contentType: "application/json;charset=utf-8",
+            success: (result) => {
+                console.log(result);
+                cbx = '';
+                //cbx+= "<select class='form-control' name='idPosition'>";
+                cbx += '<option value="" disabled>--Choose option--</option>';
+                $.each(result, (index, item) => {
+                    cbx += `<option value="${item.id}">${item.name}</option>`;
+                });
+                //cbx+="</select>";
+                $("#Cbx_Position").html(cbx);
+            }
+        })
+    };
+    Cbx_Position();
+
+    function ListEmployee() {
+
+
+        var id = 0;
+        var tempUrl = `/EmployeeT7/ListEmployee/id=${id}`; debugger
+        console.log(tempUrl);
+        $.ajax({
+            url: tempUrl,
+            type: "Get",
+            dataType: "Json",
+            contentType: "application/json;charset=utf-8",
+            success: (result, status) => {
+                //console.log(result);
+
+                debugger
+                //if (status) {
+                var object = '';
+                $.each(result, (index, item) => {
+
+                    //------------------------------------------------------Fix herre
+                    //console.log(result);
+                    object += '<tr>';
+                    object += '<td>' + index + '</td>';
+                    object += '<td>' + item.username + '</td>';
+                    object += '<td>' + item.position + '</td>';
+                    object += '<td>' + item.name + '</td>';
+                    object += '<td>' + item.phone + '</td>';
+                    object += '<td>' + item.email + '</td>';
+                    if (item.status) {
+                        object += '<td>' + `<i class="fa-solid fa-user-gear" style="color: green; font-size: 20px; text-center: center;" onclick="ActiveOrDisactive(${item.id})"></i>` + '</td>';
+                    } else {
+                        object += '<td>' + `<i class="fa-solid fa-user-lock" style="color: red; font-size: 20px; text-center: center;" onclick="ActiveOrDisactive(${item.id})"></i>` + '</td>';
+                    }
+                    object += '<td>' + `<i class="fa-solid fa-user-pen" style="font-size: 20px; color: blue" onclick="FormEdit(${item.id})" ></i>`
+
+                            /*+ '   ' + `<button class="btn btn-danger" onclick="if (!confirm('Are you sure?')) { return false }else{Delete(${item.id}) }"  >Delete</button>` */ + '</td>';
+
+                    object += '</tr>';
+                }); /*<i class="fa-solid fa-user-pen" > </i>*/
+                $("#Tbl_Employee").html(object);
+                //}
+            },
+            error: () => {
+                alert("Can't not display ");
+            }
+        });
+    }
+    ListEmployee()
+</script>
+@*<i class="fa-solid fa-user-gear"></i>*@
+@*<i class="fa-solid fa-user-lock"></i>*@

@@ -1,0 +1,249 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<link href="~/fontawesome/css/all.min.css" rel="stylesheet" />
+<link href="~/fontawesome/css/fontawesome.min.css" rel="stylesheet" />
+
+
+<h4>index of employee t7 </h4>
+@*<i style="color: red" class="fa-solid fa-user-lock"></i>*@
+<hr />
+@await Html.PartialAsync("_ViewEmployeeData")
+<div id="_ViewEmployeeData">
+</div>
+<!--modal-->
+<div class="modal fade modal" id="modalEmployee">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="text-info modal-title">Add new Position</h1>
+                <button class="close " style="color: red; font-size: 25px;" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form method="post" id="form-modal">
+                    <input type="hidden" id="idEmployee" />
+                    <div class="form-group">
+                        <label class="form-label" for="fullname">Fullname</label>
+                        <input type="text" id="fullname" name="fullname" placeholder="vd: Nguyen Van A" class="form-control" />
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="phone">Phone</label>
+                        <input type="tel" name="phone" id="phone" placeholder="vd: 19001000" class="form-control" />
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email</label>
+                        <input type="email" name="email" id="email" placeholder="vd: Temp@gmail.com" class="form-control" />
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="username">Username</label>
+                        <input type="text" id="username" name="username" placeholder="vd: username" class="form-control" />
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="cd: password" class="form-control" />
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="passwordConfirm">Password Confirm</label>
+                        <input type="password" id="passwordConfirm" name="passwordConfirm" class="form-control" />
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Position</label>
+                        <select class="form-select" id="Cbx_Position" name="idPosition">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="status">Status</label>
+                        <select class="form-control" id="status" name="status">
+                            <option value="true">Active</option>
+                            <option value="false">DisActive</option>
+                        </select>
+                    </div>
+                    <br />
+                    <input type="submit" value="Save" class="btn btn-primary" style="float: right" />
+
+                </form>
+                <button class="btn btn-danger btn_close_modal" style="float: right; margin-right: 5px;">Close</button>
+            </div>
+
+            @*<div class="modal-footer">
+            <a class="btn btn-primary">New</a>
+            <button class="btn btn-danger btn_close_modal">Close</button>
+            </div>*@
+        </div>
+    </div>
+</div>
+
+<!--Script-->
+@*<script src="~/js/good.js"></script>*@
+<script>
+    $("#showModal").click(() => {
+        Cbx_Position();
+        $("#modalEmployee").modal("show");
+        $('#idEmployee').removeAttr("name");
+    });
+    $(".btn_close_modal").click(() => {
+        resetModal();
+        $("#modalEmployee").modal("hide");
+    })
+    function resetModal() {
+        $("#username").val("");
+        $("#password").val("");
+        $("#fullname").val("");
+        $("#phone").val("");
+        $("#email").val("");
+        $("#passwordConfirm").val("");
+        //document.querySelectorAll(".text-danger").innerText ="";
+        $(".text-danger ").text("");
+    }
+    function closeModal() {
+        resetModal();
+        $("#modalEmployee").modal("hide");
+    }
+
+</script>
+
+<script src="~/js/bad.js"></script>
+<script>
+    console.log("---err--");
+    console.log(document.querySelector("#password").value);
+    Validator({
+        "form": "#form-modal",
+        errSelector: ".text-danger",
+        rules: [
+            Validator.isRequires("#fullname"),
+            Validator.isRequires("#phone"),
+            Validator.isRequires("#email"),
+            Validator.isRequires("#username"),
+            Validator.isMinLength("#username", 3),
+            Validator.isRequires("#password"),
+            Validator.isRequires("#passwordConfirm"),
+            Validator.isHello('#passwordConfirm', function () {
+                return document.querySelector('#password').value;
+            }),
+
+        ],
+        onSubmit: (data) => {//
+            debugger
+            console.log(data);
+            if (data) {
+                AddOrUpdateC2("/EmployeeT7/AddOrUpdate", data, id = 0);
+            }
+            //
+        }
+    });
+    FormEdit = (id) => {
+        console.log(id);
+        //var urlPost = `/EmployeeT7/FormEdit/${id}`;
+        debugger
+        $.ajax({
+            url: `/EmployeeT7/FormEdit/${id}`,
+            type: "Get",
+            dataType: 'json',
+            success: (res) => {
+                console.log(res);
+                Cbx_Position();
+
+                $("#modalEmployee").modal('show');
+                $('#idEmployee').attr('name', 'idEmployee');
+                $('#idEmployee').val(res.id);
+                $('#fullname').val(res.name);
+                $('#phone').val(res.phone);
+                $('#email').val(res.email);
+                $('#username').val(res.username);
+                $('#password').val(res.password);
+            },
+            error: () => {
+                alert("Can't not edit data");
+            }
+        });
+
+    }
+    AddOrUpdateC2 = (url, data, id) => {
+        debugger
+        var urlPost = 0;
+        console.log(url);
+        console.log(data);
+        console.log(id);
+        if (id) {
+            var idEmployee = id;
+            urlPost = url + `/id=${idEmployee}`;
+            console.log(urlPost);
+        } else {
+            urlPost = url + `/id=${id}`;
+            console.log(urlPost);
+        }
+        //
+        //var temp = $('#idEmployee').val();
+        $.ajax({
+            url: urlPost,
+            type: "Post",
+            data: data,
+            contentType: "application/x-www-form-urlencoded;charset=utf-8",
+            dataType: 'json',
+            success: (res) => {
+                debugger
+                console.log(res);
+                if (res) {
+                    ListEmployee();
+                    Cbx_Position();
+                    alert("success");
+                    //setInterval($('#alertMess').attr('display', 'block'), 5000);
+                    closeModal();
+                } else {
+                    console.log("Can't no addorupdate");
+                }
+
+            },
+            error: (e) => {
+                console.log(e);
+                console.log("failed");
+            }
+
+        });
+
+
+    }
+    Delete = (id) => {
+        debugger
+        console.log(id);
+        var UrlPost = `/EmployeeT7/DeleteEmployee/${id}`
+        if (id) {
+            $.ajax({
+                url: UrlPost,
+                type: "Post",
+                success: (res) => {
+                    alert("Success");
+                    ListEmployee();
+                },
+                error: () => {
+                    alert("Can't delete");
+                }
+
+            });
+        };
+    };
+
+    ActiveOrDisactive = (id) => {
+        debugger
+        console.log(id);
+        $.ajax({
+            url: `EmployeeT7/ActiveOrDisactive/${id}`,
+            type: "Post",
+            success: () => {
+                alert("success");
+                Cbx_Position();
+                ListEmployee();
+            },
+            error: () => {
+                alert("Failed");
+            }
+        });
+    };
+</script>

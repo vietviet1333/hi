@@ -1,0 +1,32 @@
+﻿@{
+    Layout = "_LayoutManagement";
+}
+@model Nexus_Manegement.Models.Customer
+
+
+<table class="table table-light mb-0">
+    <thead>
+        <tr>
+            <th>NAME</th>
+          
+            <th>PHONE</th>
+            <th>EMAIL</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(TempData["nophone"]=="No Phone")
+        {
+            <h1> No Phone</h1>
+        }
+        else
+        {
+     <tr>
+                    <td class="text-bold-500">@Model.Name</td>
+                
+                    <td class="text-bold-500">@Model.Phone</td>
+                    <td>@Model.Email</td>
+                </tr>
+        }
+
+    </tbody>
+</table>
